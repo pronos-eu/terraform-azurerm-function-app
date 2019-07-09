@@ -4,6 +4,7 @@ resource "azurerm_resource_group" "function_resource_group" {
 }
 
 resource "azurerm_storage_account" "function_storage_account" {
+  count                    = var.enable_storage_creation ? 1 : 0
   name                     = var.storage_account_name
   resource_group_name      = azurerm_resource_group.function_resource_group.name
   location                 = var.location
@@ -25,7 +26,6 @@ resource "azurerm_app_service_plan" "function_service_plan" {
     tier = "Dynamic"
     size = "Y1"
   }
-
 }
 
 resource "azurerm_function_app" "function_app" {
@@ -36,12 +36,11 @@ resource "azurerm_function_app" "function_app" {
   version                   = var.runtime_version
   https_only                = true
   client_affinity_enabled   = false
-  storage_connection_string = azurerm_storage_account.function_storage_account.primary_connection_string
   app_settings              = var.app_settings
+  storage_connection_string = var.enable_storage_creation ? azurerm_storage_account.function_storage_account.0.primary_connection_string : var.storage_connection_string
   tags                      = var.tags
 
   identity {
     type = "SystemAssigned"
   }
-
 }
