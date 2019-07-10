@@ -16,6 +16,18 @@ variable "function_name" {
   default     = "super-nice-function"
 }
 
+variable "enable_storage_creation" {
+  description = "If set to false, storage account will be not created and storage_connection_string variable is mandatory."
+  type        = bool
+  default     = true
+}
+
+variable "storage_connection_string" {
+  type        = string
+  description = "Storage account primary connection string if custom."
+  default     = null
+}
+
 variable "storage_account_name" {
   type        = string
   description = "Name of storage account to create if enabled"
