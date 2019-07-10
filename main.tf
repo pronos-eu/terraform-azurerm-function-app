@@ -1,12 +1,11 @@
-resource "azurerm_resource_group" "function_resource_group" {
-  name     = var.resource_group_name
-  location = var.location
+data "azurerm_resource_group" "function_resource_group" {
+  name = var.resource_group_name
 }
 
 resource "azurerm_storage_account" "function_storage_account" {
   count                    = var.enable_storage_creation ? 1 : 0
   name                     = var.storage_account_name
-  resource_group_name      = azurerm_resource_group.function_resource_group.name
+  resource_group_name      = data.azurerm_resource_group.function_resource_group.name
   location                 = var.location
   account_tier             = var.account_tier
   account_replication_type = var.account_replication_type
@@ -18,7 +17,7 @@ resource "azurerm_storage_account" "function_storage_account" {
 resource "azurerm_app_service_plan" "function_service_plan" {
   name                = var.service_plan_name
   location            = var.location
-  resource_group_name = azurerm_resource_group.function_resource_group.name
+  resource_group_name = data.azurerm_resource_group.function_resource_group.name
   kind                = "FunctionApp"
   tags                = var.tags
 
@@ -31,7 +30,7 @@ resource "azurerm_app_service_plan" "function_service_plan" {
 resource "azurerm_function_app" "function_app" {
   name                      = var.function_name
   location                  = var.location
-  resource_group_name       = azurerm_resource_group.function_resource_group.name
+  resource_group_name       = data.azurerm_resource_group.function_resource_group.name
   app_service_plan_id       = azurerm_app_service_plan.function_service_plan.id
   version                   = var.runtime_version
   https_only                = true
