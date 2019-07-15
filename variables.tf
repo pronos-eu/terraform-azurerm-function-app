@@ -55,7 +55,7 @@ variable "service_plan_name" {
 variable "runtime_version" {
   type        = string
   description = "Function runtime version"
-  default     = "~1"
+  default     = "~2"
 }
 
 variable "app_settings" {
