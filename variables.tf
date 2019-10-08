@@ -1,19 +1,28 @@
 variable "resource_group_name" {
   type        = string
   description = "Name of resource group"
-  default     = "function-app-resource-group"
 }
 
-variable "location" {
+variable "service_plan_name" {
   type        = string
-  description = "Azure region where resources will be created"
-  default     = "northeurope"
+  description = "Name of app service plan"
 }
 
 variable "function_name" {
   type        = string
   description = "Name of function app"
-  default     = "super-nice-function"
+}
+
+variable "storage_account_name" {
+  type        = string
+  description = "Name of storage account to create if enabled"
+  default     = null
+}
+
+variable "location" {
+  type        = string
+  description = "Azure region where resources will be created"
+  default     = null
 }
 
 variable "enable_storage_creation" {
@@ -28,12 +37,6 @@ variable "storage_connection_string" {
   default     = null
 }
 
-variable "storage_account_name" {
-  type        = string
-  description = "Name of storage account to create if enabled"
-  default     = "fncstrgaccnt"
-}
-
 variable "account_tier" {
   type        = string
   description = "Storage account tier"
@@ -46,27 +49,68 @@ variable "account_replication_type" {
   default     = "LRS"
 }
 
-variable "service_plan_name" {
-  type        = string
-  description = "Name of app service plan"
-  default     = "function-app-service-plan"
-}
-
 variable "runtime_version" {
   type        = string
   description = "Function runtime version"
   default     = "~2"
 }
 
+variable "worker_runtime" {
+  type        = string
+  description = "Functions worker runtime (e.g. node, python etc.)"
+  default     = "node"
+}
+
 variable "app_settings" {
-  type        = map
+  type        = map(string)
   description = "Application settings to set on deploy."
   default     = {}
 }
 
+variable "kind" {
+  type        = string
+  description = "The kind of App Service Plan to create. Possible values: Windows (also available as App), Linux, elastic (Premium Consumption), FunctionApp (Consumption Plan)"
+  default     = "FunctionApp"
+}
+
+variable "sku_tier" {
+  type        = string
+  description = "Pricing tier of function app plan"
+  default     = "Dynamic"
+}
+
+variable "sku_size" {
+  type        = string
+  description = "Instance size of function app plan"
+  default     = "Y1"
+}
+
+variable "node_version" {
+  type        = string
+  description = "Node.js version"
+  default     = "10.15.2"
+}
+
+variable "use_32_bit_worker_process" {
+  type        = bool
+  description = "Determines if functions worker process should be running 32 bit or not. On Free or Shared plans must be set to true."
+  default     = true
+}
+
+variable "always_on" {
+  type        = bool
+  description = "Determines if function app should be always loaded/running"
+  default     = false
+}
 
 variable "tags" {
+  type        = map(string)
   description = "Map of tags to assign to resources"
-  type        = "map"
   default     = {}
+}
+
+variable "appinsights_instrumentationkey" {
+  type        = string
+  description = "Instrumentation key for app insights"
+  default     = ""
 }
