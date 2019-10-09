@@ -26,14 +26,26 @@ variable "location" {
 }
 
 variable "enable_storage_creation" {
-  description = "If set to false, storage account will be not created and storage_connection_string variable is mandatory."
   type        = bool
+  description = "If set to false, storage account will be not created and storage_connection_string variable is mandatory."
+  default     = true
+}
+
+variable "enable_app_service_plan_creation" {
+  type        = bool
+  description = "If set to false, function app service plan will be not created and app_service_plan_id variable is mandatory."
   default     = true
 }
 
 variable "storage_connection_string" {
   type        = string
   description = "Storage account primary connection string if custom."
+  default     = null
+}
+
+variable "app_service_plan_id" {
+  type        = string
+  description = "ID of app service plan where function app will be deployed/attached."
   default     = null
 }
 

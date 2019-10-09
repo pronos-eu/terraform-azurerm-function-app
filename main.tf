@@ -24,6 +24,7 @@ resource "azurerm_storage_account" "main" {
 }
 
 resource "azurerm_app_service_plan" "main" {
+  count               = var.enable_app_service_plan_creation ? 1 : 0
   name                = var.service_plan_name
   location            = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name = data.azurerm_resource_group.main.name
@@ -41,12 +42,12 @@ resource "azurerm_function_app" "main" {
   name                      = var.function_name
   location                  = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name       = data.azurerm_resource_group.main.name
-  app_service_plan_id       = azurerm_app_service_plan.main.id
+  app_service_plan_id       = coalesce(var.app_service_plan_id, azurerm_app_service_plan.main[0].id)
   version                   = var.runtime_version
   https_only                = true
   client_affinity_enabled   = false
   app_settings              = "${merge(local.default_app_settings, var.app_settings)}"
-  storage_connection_string = var.enable_storage_creation ? azurerm_storage_account.main.0.primary_connection_string : var.storage_connection_string
+  storage_connection_string = var.enable_storage_creation ? azurerm_storage_account.main[0].primary_connection_string : var.storage_connection_string
   tags                      = var.tags
 
   site_config {

@@ -5,26 +5,26 @@ output "function_app_id" {
 
 output "function_app_default_hostname" {
   description = "Function App Default Hostname"
-  value       = azurerm_function_app.default_hostname
+  value       = azurerm_function_app.main.default_hostname
 }
 
 output "function_app_outbound_ip_addresses" {
   description = "Function App outbound IP Addresses"
-  value       = azurerm_function_app.outbound_ip_addresses
+  value       = azurerm_function_app.main.outbound_ip_addresses
 }
 
 output "function_app_possible_outbound_ip_addresses" {
   description = "All possible Function App outbound IP Addresses"
-  value       = azurerm_function_app.possible_outbound_ip_addresses
+  value       = azurerm_function_app.main.possible_outbound_ip_addresses
 }
 
 output "function_app_site_credential" {
   description = "Site-level credentials, can be used to publish code"
   sensitive   = true
-  value       = azurerm_function_app.site_credential
+  value       = azurerm_function_app.main.site_credential
 }
 
 output "app_service_plan_id" {
   description = "ID of app service plan used by functions"
-  value       = azurerm_app_service_plan.main.id
+  value       = azurerm_app_service_plan.main[0].id
 }

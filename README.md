@@ -13,8 +13,10 @@
 | account\_replication\_type | Type of Storage Account replication. | string | `"LRS"` | no |
 | account\_tier | Storage account tier | string | `"Standard"` | no |
 | always\_on | Determines if function app should be always loaded/running | bool | `"false"` | no |
+| app\_service\_plan\_id | ID of app service plan where function app will be deployed/attached. | string | `"null"` | no |
 | app\_settings | Application settings to set on deploy. | map(string) | `{}` | no |
 | appinsights\_instrumentationkey | Instrumentation key for app insights | string | `""` | no |
+| enable\_app\_service\_plan\_creation | If set to false, function app service plan will be not created and app\_service\_plan\_id variable is mandatory. | bool | `"true"` | no |
 | enable\_storage\_creation | If set to false, storage account will be not created and storage\_connection\_string variable is mandatory. | bool | `"true"` | no |
 | kind | The kind of App Service Plan to create. Possible values: Windows \(also available as App\), Linux, elastic \(Premium Consumption\), FunctionApp \(Consumption Plan\) | string | `"FunctionApp"` | no |
 | location | Azure region where resources will be created | string | `"null"` | no |
