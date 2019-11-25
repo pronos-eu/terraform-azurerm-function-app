@@ -46,7 +46,7 @@ resource "azurerm_function_app" "main" {
   version                   = var.runtime_version
   https_only                = true
   client_affinity_enabled   = false
-  app_settings              = "${merge(local.default_app_settings, var.app_settings)}"
+  app_settings              = merge(local.default_app_settings, var.app_settings)
   storage_connection_string = var.enable_storage_creation ? azurerm_storage_account.main[0].primary_connection_string : var.storage_connection_string
   tags                      = var.tags
 
