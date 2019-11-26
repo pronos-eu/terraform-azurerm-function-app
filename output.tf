@@ -28,3 +28,8 @@ output "app_service_plan_id" {
   description = "ID of app service plan used by functions"
   value       = azurerm_app_service_plan.main[0].id
 }
+
+output "resource_group_name" {
+  description = "Name of resource group where function are deployed"
+  value       = azurerm_app_service_plan.main[0].resource_group_name
+}
