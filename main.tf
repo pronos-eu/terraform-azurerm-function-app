@@ -58,4 +58,7 @@ resource "azurerm_function_app" "main" {
   identity {
     type = "SystemAssigned"
   }
+  lifecycle {
+    ignore_changes = [app_settings.FUNCTIONS_EXTENSION_VERSION]
+  }
 }
