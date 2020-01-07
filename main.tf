@@ -42,7 +42,7 @@ resource "azurerm_function_app" "main" {
   name                      = var.function_name
   location                  = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name       = data.azurerm_resource_group.main.name
-  app_service_plan_id       = coalesce(var.app_service_plan_id, azurerm_app_service_plan.main[0].id)
+  app_service_plan_id       = var.enable_app_service_plan_creation ? azurerm_app_service_plan.main[0].id : var.app_service_plan_id
   version                   = var.runtime_version
   https_only                = true
   client_affinity_enabled   = false
