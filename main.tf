@@ -32,7 +32,7 @@ resource "azurerm_app_service_plan" "main" {
   location            = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name = data.azurerm_resource_group.main.name
   kind                = var.kind
-  reserved            = lower(var.kind) == "linux" ? true : false
+  reserved            = lower(var.kind) == "linux" || lower(var.kind) == "functionapp" ? true : false
   tags                = var.tags
 
   sku {
@@ -52,11 +52,10 @@ resource "azurerm_function_app" "main" {
   app_settings              = merge(local.default_app_settings, var.app_settings)
   storage_connection_string = var.enable_storage_creation ? azurerm_storage_account.main[0].primary_connection_string : var.storage_connection_string
   tags                      = var.tags
-
   site_config {
     always_on                 = lower(var.sku_tier) == "free" || lower(var.sku_tier) == "dynamic" ? false : var.always_on
     use_32_bit_worker_process = lower(var.sku_tier) == "free" || lower(var.sku_tier) == "dynamic" ? true : var.use_32_bit_worker_process
-    linux_fx_version          = "DOCKER|${var.docker_registry_url}/${var.container_image}"
+    linux_fx_version          = "DOCKER|${var.container_image}"
   }
 
   identity {

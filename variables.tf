@@ -106,7 +106,7 @@ variable "node_version" {
 variable "use_32_bit_worker_process" {
   type        = bool
   description = "Determines if functions worker process should be running 32 bit or not. On Free or Shared plans must be set to true."
-  default     = true
+  default     = false
 }
 
 variable "always_on" {
@@ -125,4 +125,28 @@ variable "appinsights_instrumentationkey" {
   type        = string
   description = "Instrumentation key for app insights"
   default     = ""
+}
+
+variable "container_image" {
+  type        = string
+  description = "Instrumentation key for app insights"
+  default     = "Container image name. Example: `innovationnorway/python-hello-world:latest`."
+}
+
+variable "docker_registry_url" {
+  type        = string
+  default     = "https://index.docker.io"
+  description = "The container registry url."
+}
+
+variable "docker_registry_username" {
+  type        = string
+  default     = null
+  description = "The container registry username."
+}
+
+variable "docker_registry_password" {
+  type        = string
+  default     = null
+  description = "The container registry password."
 }

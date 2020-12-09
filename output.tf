@@ -26,7 +26,8 @@ output "function_app_site_credential" {
 
 output "app_service_plan_id" {
   description = "ID of app service plan used by functions"
-  value       = var.enable_app_service_plan_creation ? azurerm_app_service_plan.main[0].id : var.app_service_plan_id
+  # value       = var.enable_app_service_plan_creation ? azurerm_app_service_plan.main[0].id : var.app_service_plan_id
+  value       = var.enable_app_service_plan_creation ? join("", azurerm_app_service_plan.main[*].id) : var.app_service_plan_id
 }
 
 output "resource_group_name" {
