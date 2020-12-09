@@ -1,9 +1,12 @@
 locals {
   default_app_settings = {
-    FUNCTIONS_EXTENSION_VERSION    = var.runtime_version
-    FUNCTIONS_WORKER_RUNTIME       = var.worker_runtime
-    WEBSITE_NODE_DEFAULT_VERSION   = var.node_version
-    APPINSIGHTS_INSTRUMENTATIONKEY = var.appinsights_instrumentationkey
+    FUNCTIONS_EXTENSION_VERSION     = var.runtime_version
+    WEBSITE_NODE_DEFAULT_VERSION    = var.node_version
+    APPINSIGHTS_INSTRUMENTATIONKEY  = var.appinsights_instrumentationkey
+    DOCKER_REGISTRY_SERVER_URL      = var.docker_registry_url
+    DOCKER_REGISTRY_SERVER_USERNAME = var.docker_registry_username
+    DOCKER_REGISTRY_SERVER_PASSWORD = var.docker_registry_password
+    DOCKER_CUSTOM_IMAGE_NAME        = var.container_image
   }
 }
 
@@ -53,6 +56,7 @@ resource "azurerm_function_app" "main" {
   site_config {
     always_on                 = lower(var.sku_tier) == "free" || lower(var.sku_tier) == "dynamic" ? false : var.always_on
     use_32_bit_worker_process = lower(var.sku_tier) == "free" || lower(var.sku_tier) == "dynamic" ? true : var.use_32_bit_worker_process
+    linux_fx_version          = "DOCKER|${var.docker_registry_url}/${var.container_image}"
   }
 
   identity {
